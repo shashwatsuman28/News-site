@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koshish Charitable Trust - News</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #059669; border-radius: 4px; }
+        
+        /* Custom utility classes to replace Tailwind */
+        .container { max-width: 1200px; margin: 0 auto; }
+        .bg-gradient-green { background: linear-gradient(135deg, #059669, #2563eb); }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-white { background-color: #ffffff; }
+        .bg-gray-800 { background-color: #1f2937; }
+        .bg-yellow-50 { background-color: #fffbeb; }
+        .bg-green-600 { background-color: #059669; }
+        .bg-green-700 { background-color: #047857; }
+        .bg-gray-200 { background-color: #e5e7eb; }
+        .bg-gray-300 { background-color: #d1d5db; }
+        
+        .text-white { color: #ffffff; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-800 { color: #1f2937; }
+        .text-gray-400 { color: #9ca3af; }
+        .text-gray-300 { color: #d1d5db; }
+        .text-green-600 { color: #059669; }
+        .text-green-800 { color: #047857; }
+        .text-green-100 { color: #dcfce7; }
+        .text-yellow-800 { color: #92400e; }
+        .text-blue-800 { color: #1e40af; }
+        .text-red-800 { color: #991b1b; }
+        .text-purple-800 { color: #6b21a8; }
+        
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .rounded-full { border-radius: 9999px; }
+        
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .p-6 { padding: 1.5rem; }
+        .pb-1 { padding-bottom: 0.25rem; }
+        .pt-8 { padding-top: 2rem; }
+        .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+        .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-16 { margin-top: 4rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .hidden { display: none; }
+        .block { display: block; }
+        .w-full { width: 100%; }
+        .h-48 { height: 12rem; }
+        
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-6xl { font-size: 3.75rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .font-sans { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+        
+        .space-x-8 > * + * { margin-left: 2rem; }
+        .space-x-4 > * + * { margin-left: 1rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .gap-2 { gap: 0.5rem; }
+        
+        .border { border-width: 1px; border-color: #d1d5db; }
+        .border-l-4 { border-left-width: 4px; }
+        .border-yellow-400 { border-color: #fbbf24; }
+        .border-b-2 { border-bottom-width: 2px; }
+        .border-green-600 { border-color: #059669; }
+        .border-t { border-top-width: 1px; }
+        .border-gray-700 { border-color: #374151; }
+        .border-gray-300 { border-color: #d1d5db; }
+        
+        .object-cover { object-fit: cover; }
+        .overflow-hidden { overflow: hidden; }
+        .transition-colors { transition-property: color, background-color, border-color; transition-duration: 0.15s; }
+        .transition-shadow { transition-property: box-shadow; transition-duration: 0.15s; }
+        .hover\:bg-gray-100:hover { background-color: #f3f4f6; }
+        .hover\:bg-green-700:hover { background-color: #047857; }
+        .hover\:bg-gray-300:hover { background-color: #d1d5db; }
+        .hover\:text-green-600:hover { color: #059669; }
+        .hover\:text-green-800:hover { color: #047857; }
+        .hover\:text-white:hover { color: #ffffff; }
+        .hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        
+        .focus\:outline-none:focus { outline: 2px solid transparent; outline-offset: 2px; }
+        .focus\:ring-2:focus { box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.5); }
+        .focus\:ring-green-500:focus { box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.5); }
+        
+        .fixed { position: fixed; }
+        .top-4 { top: 1rem; }
+        .right-4 { right: 1rem; }
+        .z-50 { z-index: 50; }
+        
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        
+        .flex-wrap { flex-wrap: wrap; }
+        .rows-4 { height: 4rem; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header -->
+    <header class="bg-gradient-green text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">Koshish Charitable Trust</h1>
+                    <p class="text-green-100 mt-1">Making a difference, one step at a time</p>
+                </div>
+                <button onclick="toggleAdminPanel()" class="bg-white text-green-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    Admin Panel
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <ul class="flex py-4">
+                <li><a href="#" class="text-green-600 font-semibold border-b-2 border-green-600 pb-1">News</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Admin Panel (Hidden by default) -->
+    <div id="adminPanel" class="hidden bg-yellow-50 border-l-4 border-yellow-400 p-6 mx-4 mt-4 rounded-r-lg">
+        <h2 class="text-xl font-bold text-yellow-800 mb-4">📝 Admin Panel - Add News</h2>
+        <form id="newsForm" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">News Title</label>
+                    <input type="text" id="newsTitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Enter news title..." required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <select id="newsCategory" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="Community">Community</option>
+                        <option value="Health">Health</option>
+                        <option value="Education">Education</option>
+                        <option value="Environment">Environment</option>
+                        <option value="Fundraising">Fundraising</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">News Content</label>
+                <textarea id="newsContent" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Enter news content..." required></textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Image URL (optional)</label>
+                <input type="url" id="newsImage" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="https://example.com/image.jpg">
+            </div>
+            <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors">
+                Publish News
+            </button>
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-bold text-gray-800 mb-2">Latest News & Updates</h2>
+            <p class="text-gray-600">Stay informed about our latest activities and community impact</p>
+        </div>
+
+        <!-- News Filter -->
+        <div class="mb-8">
+            <div class="flex flex-wrap gap-2 justify-center">
+                <button onclick="filterNews('all')" class="filter-btn bg-green-600 text-white px-4 py-2 rounded-full text-sm hover:bg-green-700 transition-colors">All</button>
+                <button onclick="filterNews('Community')" class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">Community</button>
+                <button onclick="filterNews('Health')" class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">Health</button>
+                <button onclick="filterNews('Education')" class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">Education</button>
+                <button onclick="filterNews('Environment')" class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">Environment</button>
+                <button onclick="filterNews('Fundraising')" class="filter-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full text-sm hover:bg-gray-300 transition-colors">Fundraising</button>
+            </div>
+        </div>
+
+        <!-- News Grid -->
+        <div id="newsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- News items will be inserted here -->
+        </div>
+
+        <!-- No news message -->
+        <div id="noNews" class="text-center py-12 hidden">
+            <div class="text-gray-400 text-6xl mb-4">📰</div>
+            <p class="text-gray-600 text-lg">No news available in this category</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Koshish Charitable Trust</h3>
+                    <p class="text-gray-300">Dedicated to creating positive change in our community through various social initiatives.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Our Projects</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Get Involved</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">📧</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">📱</a>
+                        <a href="#" class="text-gray-300 hover:text-white transition-colors">🌐</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Koshish Charitable Trust. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample news data
+        let newsData = [
+            {
+                id: 1,
+                title: "Community Health Camp Successfully Organized",
+                category: "Health",
+                content: "Koshish Charitable Trust organized a free health camp in rural areas, providing medical check-ups to over 500 community members. The camp included blood pressure monitoring, diabetes screening, and basic health consultations.",
+                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=250&fit=crop",
+                date: new Date().toLocaleDateString()
+            },
+            {
+                id: 2,
+                title: "Educational Scholarship Program Launched",
+                category: "Education",
+                content: "We are proud to announce the launch of our educational scholarship program, supporting 50 underprivileged students with their academic expenses. This initiative aims to break the cycle of poverty through education.",
+                image: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&h=250&fit=crop",
+                date: new Date(Date.now() - 86400000).toLocaleDateString()
+            },
+            {
+                id: 3,
+                title: "Tree Plantation Drive - 1000 Trees Planted",
+                category: "Environment",
+                content: "Our volunteers came together to plant 1000 trees across the city parks and schools. This environmental initiative is part of our commitment to creating a greener, cleaner future for our community.",
+                image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=250&fit=crop",
+                date: new Date(Date.now() - 172800000).toLocaleDateString()
+            }
+        ];
+
+        let currentFilter = 'all';
+        let nextId = 4;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderNews();
+            
+            // Add form submission handler
+            document.getElementById('newsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addNews();
+            });
+        });
+
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        function addNews() {
+            const title = document.getElementById('newsTitle').value.trim();
+            const category = document.getElementById('newsCategory').value;
+            const content = document.getElementById('newsContent').value.trim();
+            const image = document.getElementById('newsImage').value.trim();
+
+            if (!title || !content) {
+                showNotification('Please fill in title and content!', 'error');
+                return;
+            }
+
+            const newNews = {
+                id: nextId++,
+                title: title,
+                category: category,
+                content: content,
+                image: image || `https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=250&fit=crop`,
+                date: new Date().toLocaleDateString()
+            };
+
+            // Add to beginning of array (latest first)
+            newsData.unshift(newNews);
+            
+            // Reset filter to 'all' to show new news
+            currentFilter = 'all';
+            updateFilterButtons();
+            
+            // Re-render news
+            renderNews();
+            
+            // Clear form
+            document.getElementById('newsForm').reset();
+            
+            // Hide admin panel
+            document.getElementById('adminPanel').classList.add('hidden');
+            
+            // Show success message
+            showNotification('✅ News published successfully!', 'success');
+            
+            // Scroll to top to see new news
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderNews() {
+            const container = document.getElementById('newsContainer');
+            const noNewsDiv = document.getElementById('noNews');
+            
+            let filteredNews = currentFilter === 'all' ? 
+                newsData : 
+                newsData.filter(news => news.category === currentFilter);
+
+            if (filteredNews.length === 0) {
+                container.innerHTML = '';
+                noNewsDiv.classList.remove('hidden');
+                return;
+            }
+
+            noNewsDiv.classList.add('hidden');
+            
+            container.innerHTML = filteredNews.map(news => `
+                <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow fade-in">
+                    <img src="${news.image}" alt="${news.title}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-${getCategoryColor(news.category)}-100 text-${getCategoryColor(news.category)}-800 px-2 py-1 rounded-full text-xs font-medium">
+                                ${news.category}
+                            </span>
+                            <span class="text-gray-500 text-sm">${news.date}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">${news.title}</h3>
+                        <p class="text-gray-600 mb-4">${news.content.substring(0, 120)}...</p>
+                        <button onclick="readMore(${news.id})" class="text-green-600 hover:text-green-800 font-medium">
+                            Read More →
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function filterNews(category) {
+            currentFilter = category;
+            updateFilterButtons();
+            renderNews();
+        }
+
+        function updateFilterButtons() {
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-green-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            // Find and highlight active button
+            const activeBtn = document.querySelector(`[onclick="filterNews('${currentFilter}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                activeBtn.classList.add('bg-green-600', 'text-white');
+            }
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                'Community': 'blue',
+                'Health': 'red',
+                'Education': 'purple',
+                'Environment': 'green',
+                'Fundraising': 'yellow'
+            };
+            return colors[category] || 'gray';
+        }
+
+        function readMore(id) {
+            const news = newsData.find(n => n.id === id);
+            if (news) {
+                alert(`${news.title}\n\n${news.content}`);
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white ${type === 'success' ? 'bg-green-600' : 'bg-red-600'} z-50 fade-in`;
+            notification.textContent = message;
+            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
