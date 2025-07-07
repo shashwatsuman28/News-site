@@ -268,9 +268,33 @@
         </div>
     </footer>
 
+    <!-- News Modal -->
+<div id="newsModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+        <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-gray-800 text-2xl font-bold">&times;</button>
+        <img id="modalImage" src="" alt="" class="w-full h-48 object-cover rounded mb-4">
+        <span id="modalCategory" class="inline-block mb-2 px-2 py-1 rounded-full text-xs font-medium"></span>
+        <h3 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-2"></h3>
+        <span id="modalDate" class="text-gray-500 text-sm mb-4 block"></span>
+        <p id="modalContent" class="text-gray-700"></p>
+    </div>
+</div>
+
     <script>
-        // Sample news data
-        let newsData = [
+        let newsData = [];
+let nextId = 1;
+let currentFilter = 'all';
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Load from localStorage if available
+    const storedNews = localStorage.getItem('newsData');
+    if (storedNews) {
+        newsData = JSON.parse(storedNews);
+        // Set nextId to one more than the highest id
+        nextId = newsData.length > 0 ? Math.max(...newsData.map(n => n.id)) + 1 : 1;
+    } else {
+        // Default news if nothing in storage
+        newsData = [
             {
                 id: 1,
                 title: "Community Health Camp Successfully Organized",
@@ -296,20 +320,17 @@
                 date: new Date(Date.now() - 172800000).toLocaleDateString()
             }
         ];
+        nextId = 4;
+        localStorage.setItem('newsData', JSON.stringify(newsData));
+    }
+    renderNews();
 
-        let currentFilter = 'all';
-        let nextId = 4;
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            renderNews();
-            
-            // Add form submission handler
-            document.getElementById('newsForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                addNews();
-            });
-        });
+    // Add form submission handler
+    document.getElementById('newsForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        addNews();
+    });
+});
 
         function toggleAdminPanel() {
             const panel = document.getElementById('adminPanel');
@@ -332,12 +353,15 @@
                 title: title,
                 category: category,
                 content: content,
-                image: image || `https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=250&fit=crop`,
+                image: image || `https://media.istockphoto.com/id/184990926/photo/close-up-shot-of-opening-a-blank-page-by-the-hand.jpg?s=612x612&w=0&k=20&c=wi0WUoHAc4mC-0rhpH6eywwLXzs_KX1dNZvnlEihorM=`,
                 date: new Date().toLocaleDateString()
             };
 
             // Add to beginning of array (latest first)
             newsData.unshift(newNews);
+
+            // Save to localStorage
+            localStorage.setItem('newsData', JSON.stringify(newsData));
             
             // Reset filter to 'all' to show new news
             currentFilter = 'all';
@@ -430,8 +454,19 @@
         function readMore(id) {
             const news = newsData.find(n => n.id === id);
             if (news) {
-                alert(`${news.title}\n\n${news.content}`);
+                // Populate and show modal
+                document.getElementById('modalImage').src = news.image;
+                document.getElementById('modalTitle').innerText = news.title;
+                document.getElementById('modalCategory').innerText = news.category;
+                document.getElementById('modalDate').innerText = news.date;
+                document.getElementById('modalContent').innerText = news.content;
+                
+                document.getElementById('newsModal').classList.remove('hidden');
             }
+        }
+
+        function closeModal() {
+            document.getElementById('newsModal').classList.add('hidden');
         }
 
         function showNotification(message, type) {
