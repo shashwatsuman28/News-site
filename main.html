@@ -269,14 +269,16 @@
     </footer>
 
     <!-- News Modal -->
-<div id="newsModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+<div id="newsModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden" style="overflow-y:auto;">
+    <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full p-8 relative max-h-[95vh] flex flex-col" style="max-height:95vh;">
         <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-gray-800 text-2xl font-bold">&times;</button>
-        <img id="modalImage" src="" alt="" class="w-full h-48 object-cover rounded mb-4">
+        <img id="modalImage" src="" alt="" class="w-full h-64 object-cover rounded mb-4">
         <span id="modalCategory" class="inline-block mb-2 px-2 py-1 rounded-full text-xs font-medium"></span>
         <h3 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-2"></h3>
         <span id="modalDate" class="text-gray-500 text-sm mb-4 block"></span>
-        <p id="modalContent" class="text-gray-700"></p>
+        <div id="modalContentWrapper" class="flex-1 overflow-y-auto" style="min-height:100px;max-height:40vh;">
+            <p id="modalContent" class="text-gray-700"></p>
+        </div>
     </div>
 </div>
 
@@ -383,6 +385,13 @@ document.addEventListener('DOMContentLoaded', function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function removeNews(id) {
+            newsData = newsData.filter(news => news.id !== id);
+            localStorage.setItem('newsData', JSON.stringify(newsData));
+            renderNews();
+            showNotification('🗑️ News removed successfully!', 'success');
+        }
+
         function renderNews() {
             const container = document.getElementById('newsContainer');
             const noNewsDiv = document.getElementById('noNews');
@@ -411,9 +420,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <h3 class="text-xl font-bold text-gray-800 mb-2">${news.title}</h3>
                         <p class="text-gray-600 mb-4">${news.content.substring(0, 120)}...</p>
-                        <button onclick="readMore(${news.id})" class="text-green-600 hover:text-green-800 font-medium">
-                            Read More →
-                        </button>
+                        <div class="flex justify-between items-center">
+                            <button onclick="readMore(${news.id})" class="text-green-600 hover:text-green-800 font-medium">
+                                Read More →
+                            </button>
+                            <button onclick="removeNews(${news.id})" class="text-red-800 hover:text-red-800 font-medium ml-4" title="Remove News">
+                                🗑️ Remove
+                            </button>
+                        </div>
                     </div>
                 </article>
             `).join('');
@@ -468,6 +482,14 @@ document.addEventListener('DOMContentLoaded', function() {
         function closeModal() {
             document.getElementById('newsModal').classList.add('hidden');
         }
+
+        // Close modal when clicking outside the modal content
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('newsModal');
+    if (!modal.classList.contains('hidden') && event.target === modal) {
+        closeModal();
+    }
+});
 
         function showNotification(message, type) {
             const notification = document.createElement('div');
